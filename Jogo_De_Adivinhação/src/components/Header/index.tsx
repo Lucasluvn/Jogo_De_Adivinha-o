@@ -1,6 +1,7 @@
 import  logo  from "../../assets/logo.png"
 import restart from "../../assets/restart.svg"
 import styles from "./styles.module.css"
+
 type Props = {
   current: number
   max: number
