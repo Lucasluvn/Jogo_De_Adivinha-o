@@ -7,3 +7,22 @@
   justify-content: center;
   align-items: center;
 }
+
+.container main {
+width: 556px;
+background-color: #a93ae0;
+padding: 2rem;
+padding-top: 4.5;
+border-radius: 1.75rem;
+
+
+}
+ .word{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  margin: 2.0rem 0;
+}

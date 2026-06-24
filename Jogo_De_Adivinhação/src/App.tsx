@@ -16,12 +16,14 @@ export default function App() {
       <Header current={5} max={10} onRestart={handleRestartGame}/>
       
       <Tip tip = "Linguagem de Programação"/>
-
+    
+    <div className={styles.word}>
       <Letters value="R"/>
        <Letters value=""/>
         <Letters value="A"/>
          <Letters value="C"/>
           <Letters value=""/>
+          </div>
    </main>
   
    </div>
