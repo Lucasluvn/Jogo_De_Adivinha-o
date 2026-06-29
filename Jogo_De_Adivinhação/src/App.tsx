@@ -4,7 +4,7 @@ import { Input } from "./components/Input/Index"
 import {Letters} from "./components/Letters"
 import {Tip} from "./components/Tip"
 import {Header} from "./components/Header"
-
+import { LettersUsed } from "./components/LettersUsed"
 
 
 export default function App() {
@@ -26,13 +26,19 @@ export default function App() {
          <Letters value="C"/>
           <Letters value=""/>
           </div>
+          
+          
           <h4>Palpite</h4>
          
           <div className= {styles.guess}>
         <Input autoFocus placeholder="?" maxLength={1}/>
         <Button title="Confirmar"/>
-          </div>
+         </div>
+        
+  <LettersUsed />
+ 
    </main>
+
   
    </div>
     
