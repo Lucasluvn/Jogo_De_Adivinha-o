@@ -10,11 +10,10 @@ import {Letters} from "./components/Letters"
 import {Tip} from "./components/Tip"
 import {Header} from "./components/Header"
 import { LettersUsed } from "./components/LettersUsed"
-
-
+import type {LettersUsedProps} from "./components/LettersUsed"
 
 export default function App() {
-  console.log("App renderizou")
+const[lettersUsed,setLetterUsed] = useState<LettersUsedProps[]>([])
 const [challenge,setChallenge] = useState<Challenge| null>(null)
 const [attempts, setAttempts] = useState(0)
 const [letter, setLetter] = useState("")
@@ -31,45 +30,44 @@ const [letter, setLetter] = useState("")
   setAttempts(0)
   setChallenge(randomWord)
   setLetter("")
-
-  
-  
 }
   useEffect(()=>{
     startGame()
   },[])
+function handleConfirm(){
+if(!challenge){
+return
+}
+  if(!letter.trim){
+  return alert ("Digite uma letra")
+}
+const value = letter.toUpperCase()
+alert(value)
+const existis = lettersUsed.find((used)=> used.value.toUpperCase() === value)
+if(!existis){
+  return alert ("Você já utilizou a letra" + value)
+}
 
-  return (
+}
+return (
     <div className={styles.container}>
       <main>
       <Header current={attempts} max={10} onRestart={handleRestartGame}/>
-      
-      <Tip tip = "Linguagem de Programação"/>
-    
+      <Tip tip = {challenge?.tip}/>
     <div className={styles.word}>
-      <Letters value="R"/>
-       <Letters value=""/>
-        <Letters value="A"/>
-         <Letters value="C"/>
-          <Letters value=""/>
-          </div>
-          
-          
-          <h4>Palpite</h4>
-         
-          <div className= {styles.guess}>
-        <Input autoFocus placeholder="?" maxLength={1}/>
-        <Button title="Confirmar"/>
-         </div>
-        
-  <LettersUsed />
- 
-   </main>
-
-  
+     {challenge?.word.split("").map(()=>(
+         <Letters value=""/>
+         ))}
    </div>
-    
-  )
- 
+          <h4>Palpite</h4>
+         <div className= {styles.guess}>
+        <Input autoFocus placeholder="?" maxLength={1} onChange={(e)=> setLetter(e.target.value)}
+        />
+        <Button title="Confirmar" onClick={handleConfirm}/>
+         </div>
+        <LettersUsed data ={lettersUsed}/>
+        </main>
+</div>
+)
 }
 
