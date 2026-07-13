@@ -5,6 +5,6 @@ type Props = React.ComponentProps<"button"> & {
 }
 
 export function Button({title, ...rest}:Props){
-  return <button type="button" className={styles.button} > {title} 
+  return <button type="button" {...rest} className={styles.button} > {title} 
   </button> 
 }

@@ -17,8 +17,10 @@ const[lettersUsed,setLetterUsed] = useState<LettersUsedProps[]>([])
 const [challenge,setChallenge] = useState<Challenge| null>(null)
 const [attempts, setAttempts] = useState(0)
 const [letter, setLetter] = useState("")
+const [score,setScore] = useState(0)
 
   function handleRestartGame(){
+    
     alert("REINICIAR O JOGO")
   }
 
@@ -38,15 +40,25 @@ function handleConfirm(){
 if(!challenge){
 return
 }
-  if(!letter.trim){
+  if(!letter.trim()){
   return alert ("Digite uma letra")
 }
 const value = letter.toUpperCase()
-alert(value)
 const existis = lettersUsed.find((used)=> used.value.toUpperCase() === value)
-if(!existis){
+if(existis){
   return alert ("Você já utilizou a letra" + value)
 }
+
+const hits =  challenge.word.toUpperCase().split("").filter((char) => char === value).length
+
+const correct = hits > 0
+
+const currentScore = score + hits 
+
+setLetterUsed((prevState) => [...prevState,{value,correct}])
+ console.log(lettersUsed)
+setScore(currentScore) 
+setLetter("")
 
 }
 return (
