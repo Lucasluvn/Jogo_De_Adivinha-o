@@ -20,8 +20,11 @@ const [letter, setLetter] = useState("")
 const [score,setScore] = useState(0)
 
   function handleRestartGame(){
+    const isCofirmed = window.confirm("Você tem certeza que deseja reiniciar")
+    if(isCofirmed){
+      startGame()
+    }
     
-    alert("REINICIAR O JOGO")
   }
 
   function startGame(){
@@ -34,9 +37,7 @@ const [score,setScore] = useState(0)
   setLetter("")
   setLetterUsed([])
 }
-  useEffect(()=>{
-    startGame()
-  },[])
+  
 function handleConfirm(){
 if(!challenge){
 return
@@ -47,6 +48,7 @@ return
 const value = letter.toUpperCase()
 const existis = lettersUsed.find((used)=> used.value.toUpperCase() === value)
 if(existis){
+  setLetter("")
   return alert ("Você já utilizou a letra" + value)
 }
 
@@ -60,7 +62,34 @@ setLetterUsed((prevState) => [...prevState,{value,correct}])
  console.log(lettersUsed)
 setScore(currentScore) 
 setLetter("")
-// AQUI
+ }
+ function endgame(message:string){
+  alert(message)
+  startGame()
+ }
+useEffect(()=>{
+    startGame()
+  },[])
+
+useEffect(()=>{
+  if(!challenge){
+    return
+  }
+  setTimeout(()=>{
+    if(score === challenge.word.length){
+      return endgame("Parabéns, você acertou todas as palavras")
+     
+    } 
+    const attemptLimit = challenge.word.length + ATTEMPTS_MARGIN
+    if(lettersUsed.length === attemptLimit){
+      return endgame("Que pena, você usou todas as tentativas")
+
+    }
+  },200)
+},[score,lettersUsed.length])
+
+if(!challenge){
+  return
 }
 return (
     <div className={styles.container}>
@@ -79,7 +108,7 @@ return (
    </div>
           <h4>Palpite</h4>
          <div className= {styles.guess}>
-        <Input autoFocus placeholder="?" maxLength={1} onChange={(e)=> setLetter(e.target.value)}
+        <Input autoFocus placeholder="?" value ={letter} maxLength={1} onChange={(e)=> setLetter(e.target.value)}
         />
         <Button title="Confirmar" onClick={handleConfirm}/>
          </div>
