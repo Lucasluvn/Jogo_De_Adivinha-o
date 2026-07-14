@@ -1,8 +1,7 @@
 import styles from "./App.module.css"
-import { useEffect,useState } from "react"
+import { use, useEffect,useState } from "react"
 import {WORDS} from "./assets/utils/words"
 import type {Challenge} from "./assets/utils/words"
-
 
 import {Button} from "./components/Button"
 import { Input } from "./components/Input/Index"
@@ -12,10 +11,11 @@ import {Header} from "./components/Header"
 import { LettersUsed } from "./components/LettersUsed"
 import type {LettersUsedProps} from "./components/LettersUsed"
 
+const ATTEMPTS_MARGIN = 5
+
 export default function App() {
 const[lettersUsed,setLetterUsed] = useState<LettersUsedProps[]>([])
 const [challenge,setChallenge] = useState<Challenge| null>(null)
-const [attempts, setAttempts] = useState(0)
 const [letter, setLetter] = useState("")
 const [score,setScore] = useState(0)
 
@@ -29,9 +29,10 @@ const [score,setScore] = useState(0)
   const index = Math.floor(Math.random()* WORDS.length)
   const randomWord = WORDS[index]
   
-  setAttempts(0)
+  setScore(0)
   setChallenge(randomWord)
   setLetter("")
+  setLetterUsed([])
 }
   useEffect(()=>{
     startGame()
@@ -59,17 +60,22 @@ setLetterUsed((prevState) => [...prevState,{value,correct}])
  console.log(lettersUsed)
 setScore(currentScore) 
 setLetter("")
-
+// AQUI
 }
 return (
     <div className={styles.container}>
       <main>
-      <Header current={attempts} max={10} onRestart={handleRestartGame}/>
+      <Header current={lettersUsed.length} max={challenge?.word.length + ATTEMPTS_MARGIN} onRestart={handleRestartGame}/>
       <Tip tip = {challenge?.tip}/>
     <div className={styles.word}>
-     {challenge?.word.split("").map(()=>(
-         <Letters value=""/>
-         ))}
+     {challenge?.word.split("").map((letter,index)=>{
+      const letterUsed = lettersUsed.find((used)=> used.value.toUpperCase() === letter.toUpperCase())
+      
+      
+    
+       
+        return <Letters key ={index}  value={letterUsed?.value} color = {letterUsed?.correct? "correct" : "default"}/>
+         })}
    </div>
           <h4>Palpite</h4>
          <div className= {styles.guess}>
